@@ -12,28 +12,30 @@
     <!-- File pond preview stylesheet -->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
         rel="stylesheet" />
-    <script defer src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-    <script defer src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
-    <script defer src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
-
-    <!-- Load FilePond library -->
-    <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
-
-    <!-- script tag to allow us to setup  filePond library -->
-    <script defer src="javascripts/fileUpload.js"></script>
-
-
+        <script defer src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+        <script defer src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+        <script defer src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+    
+        <!-- Load FilePond library -->
+        <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    
+        <!-- script tag to allow us to setup  filePond library -->
+        <script defer src="/javascripts/fileUpload.js"></script>
+        <link id="main-css" rel="stylesheet" href="/styleSheets/main.css">
     <title>My Library</title>
-    <link rel="stylesheet" href="/styleSheets/main.css">
+   
 </head>
 
+
 <body>
-    <div class="container">
+       <div class="container">
+         
         <%-include("../partial/nav.ejs")%>
-            <div class="body-container">
+       
+            <div class="row center">
                 <%-include("../partial/errorMessage.ejs")%>
                 <%-body%>
-                   
+                  
             </div>
     </div>
 </body>

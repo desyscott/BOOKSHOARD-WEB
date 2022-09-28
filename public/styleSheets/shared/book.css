@@ -7,7 +7,7 @@
 
 .book-cover{
     width:var(--book-cover-width);
-    height:calc(var(--book-cover-width)/var(--book-cover-aspect-ratio));
+    height:calc(var(--book-cover-width) / var(--book-cover-aspect-ratio));
     }
 
 .book-cover-large{
@@ -57,4 +57,11 @@ margin-top:.5rem;
 .book-details-author-btn{
      grid-area: author;
     justify-self: stretch; 
+}
+
+@media screen and (max-width: 768px) {
+    .book-cover{
+        width:180px;
+        height:180px / 0.75;
+        }
 }

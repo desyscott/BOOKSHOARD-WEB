@@ -11,7 +11,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
 }
 
 .nav-link-logo {
@@ -39,4 +39,11 @@
 .nav-link-item:hover,
 .nav-link-logo:hover {
   color: var(--nav-link-hover-color);
+}
+
+@media screen and (max-width: 768px) {
+  .nav-link-logo{ 
+                 margin-bottom:.5rem;
+                 margin-right: 1rem;}
+  
 }

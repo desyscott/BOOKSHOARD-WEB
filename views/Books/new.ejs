@@ -2,7 +2,7 @@
 
 <!-- In other to used files in our Form we set our Form to multipart/form-data
 Which tell the server that is going to include multipart data which could include a file. -->
-<form action="/books" method="POST" enctype="multipart/form-data">
+<form action="/books" method="POST">
     <%-include("../partial/bookForm-input.ejs")%>
         <div class="form-btn-end btn-row ">
             <a class="btn btn-danger" href="/books">Cancel</a>

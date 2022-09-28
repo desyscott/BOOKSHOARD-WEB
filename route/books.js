@@ -4,25 +4,14 @@ const expressAsyncHandler = require("express-async-handler");
 //initialize the express router
 const router = express.Router();
 
-const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
 
 //import the booksModel form the model
 const bookModel = require("../models/booksModel");
 //import the authorsModel form the model
 const authorModel = require("../models/authorsModel");
 
-//import the bookCover folder from the bookModel and join it to the public folder
-const uploadPath = path.join("public", bookModel.coverImageBasePath);
+const imageMimeTypes=["image/jpeg","image/png","images/gif"]
 
-const imageMimeTypes = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
-const upload = multer({
-  dest: uploadPath,
-  fileFilter: (req, file, callback) => {
-    callback(null, imageMimeTypes.includes(file.mimetype));
-  },
-});
 
 
 //Search the book title
@@ -58,39 +47,31 @@ router.get("/new", (req, res) => {
 });
 
 //post all requested input to model
-router.post("/", upload.single("name"),expressAsyncHandler(async (req, res) => {
-  const fileName = req.file && req.file !== null ? req.file.filename : null;
+router.post("/", expressAsyncHandler(async (req, res) => {
   
   const book = new bookModel({
     title: req.body.title,
     author: req.body.author,
     publishDate: new Date(req.body.publishDate),
     pageCount: req.body.pageCount,
-    coverImageName: fileName,
     description: req.body.description,
   });
+  saveCover(book, req.body.cover);
+  
+  
   try {
     const newBook = await book.save();
     res.redirect(`Books/${newBook.id}`);
     
   } catch  {
-    if (book.coverImageName !== null) {
-      removeBookCover(book.coverImageName);
-    }
+   
     renderNewPage(res, book, true);
    
   }
 }));
 
 
-//function to remove BookCover in the server when an Error occur
-const removeBookCover = (fileName) => {
-  fs.unlink(path.join(uploadPath, fileName), function (err) {
-    if (err) {
-      console.error(err);
-    }
-  });
-};
+
 
 //Show individual book
 router.get("/:id",expressAsyncHandler(async (req, res) => {
@@ -117,8 +98,7 @@ router.get("/:id/edit", expressAsyncHandler(async (req, res) => {
 }));
 
 //PUT route to update the book model
-router.put("/:id", upload.single("name"),expressAsyncHandler(async (req, res) => {
-  const fileName = req.file != null ? req.file.filename : null;
+router.put("/:id", expressAsyncHandler(async (req, res) => {
   let book;
   try {
     book = await bookModel.findById(req.params.id);
@@ -127,7 +107,9 @@ router.put("/:id", upload.single("name"),expressAsyncHandler(async (req, res) =>
     book.publishDate = new Date(req.body.publishDate);
     book.pageCount = req.body.pageCount;
     book.description = req.body.description;
-    book.coverImageName = fileName;
+    if(req.body.cover!==null && req.body.cover!==""){
+      saveCover(book,req.body.cover)
+    }
 
     await book.save();
     res.redirect(`/books/${book.id}`);
@@ -183,5 +165,19 @@ const renderFormPage =expressAsyncHandler( async (res, book, form, hasError = fa
   }
 });
 
+
+//checking if the cover if a valid cover and save it 
+function saveCover(book, coverEncoded){
+  if(coverEncoded == null) return 
+  
+  //we parse the string cover into a JSON object
+  const cover = JSON.parse(coverEncoded)
+  
+  //saving a JSON object as a Buffer to the database
+  if(cover != null && imageMimeTypes.includes(cover.type)){
+    book.coverImage = new Buffer.from(cover.data,"base64")
+    book.coverImageType = cover.type
+  }
+}
 
 module.exports = router;

@@ -1,9 +1,19 @@
 .author-row{
-    display: flex;
+display: flex;
 justify-content: space-between;
 margin-bottom:1rem
 }
 
 .author-name{
-    font-size:1.2rem
+    font-size:1.1rem;
+   
+}
+
+@media screen and (max-width: 414px){
+   
+    
+.author-name{
+    font-size:1rem;
+
+}
 }

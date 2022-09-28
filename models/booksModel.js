@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
 
-const path = require("path");
-
-//importing the upload/booksCovers
-const coverImageBasePath = "uploads/booksCovers";
 
 const bookModel = new mongoose.Schema({
   title: {
@@ -28,9 +24,14 @@ const bookModel = new mongoose.Schema({
   },
   
   //we storing the name of the image in the database and storing the image itself in a file system
-  coverImageName: {
+  coverImage: {
+    type: Buffer,
+    required: true,
+  },
+  
+  coverImageType: {
     type: String,
-    required: [true,"This field is required"],
+    required:true,
   },
   //referencing the author Model the same author id in the book model
   author: {
@@ -43,14 +44,13 @@ const bookModel = new mongoose.Schema({
 
 //the virtual property will act as the any of the property in the model and it will derive it properties from the coverImageName property
 //when coverImagePath is called, it is going to call the get function
-
-bookModel.virtual("coverImagePath").get(function () {
-  if (this.coverImageName != null) {
-    return path.join("/", coverImageBasePath, this.coverImageName);
+//converting the buffer and type into an actual image cover
+bookModel.virtual("coverImagePath").get(function () { 
+  if (this.coverImage != null && this.coverImageType != null) {
+  return `data:${this.coverImageType};charset=utf-8;base64,${this.coverImage.toString("base64")}`
   }
 });
 
 module.exports = mongoose.model("Book", bookModel);
 
-//exporting the upload/booksCovers
-module.exports.coverImageBasePath = coverImageBasePath;
+
