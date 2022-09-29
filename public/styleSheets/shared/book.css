@@ -61,7 +61,17 @@ margin-top:.5rem;
 
 @media screen and (max-width: 768px) {
     .book-cover{
-        width:180px;
-        height:180px / 0.75;
+        width:220px;
+        height:calc(220px / 0.75);
         }
+}
+@media screen and (max-width: 414px) {
+    .book-details{
+        display: flex;
+        flex-wrap: wrap;
+        
+    }
+    .book-details-cover{
+        margin-bottom:1rem;
+    }
 }

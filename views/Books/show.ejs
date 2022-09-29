@@ -4,14 +4,14 @@
         <%=book.title%>
     </h2>
     <div class="book-details">
-        <div>
+        <div class="book-details-cover">
         <img class="book-cover" src="<%= book.coverImagePath %>">
-        <div class="book-details-btn-grid">
+           <div class="book-details-btn-grid">
             <a class="btn btn-primary" href="/books/<%=book.id%>/edit">Edit</a>
             <%-include("../partial/deleteForm-input.ejs",{url:`/books/${book.id}`})%>
              <a class="btn btn-primary book-details-author-btn" href="/authors/<%=book.author.id%>">View Author</a>
             </div>
-            </div>
+        </div>
 
 
             <div class="book-details-grid">
@@ -22,5 +22,6 @@
                 <div class="book-label-grid">Page Count:  </div><div><%=book.pageCount%></div>
 
                 <div class="book-label-grid">Description:  </div><div><%=book.description%></div>
-    </div>
+            </div>
+   <div>
 
